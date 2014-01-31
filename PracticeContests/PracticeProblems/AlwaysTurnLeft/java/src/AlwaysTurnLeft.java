@@ -1,5 +1,8 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class AlwaysTurnLeft {
 
@@ -132,16 +135,14 @@ public class AlwaysTurnLeft {
    * Update room description with entrance or exit
    */
   private void updateRoom(String moves) {
-    // 1. get room coords
-    Tuple room = currentRoom;
-    // 2. (entrance) canMove opposite cur facing
+    // (entrance) canMove opposite cur facing
     int possibleMoves;
     if (maze.containsKey(currentRoom)) {
       possibleMoves = maze.get(currentRoom);
     } else {
       possibleMoves = 0 | oppositeFacing();
     }
-    // 3. iterate over moves, processing rotations, stop at 'W'
+    // iterate over moves, processing rotations, stop at 'W'
     for (char move: moves.toCharArray()) {
       if (move == 'W') {
         continue;
@@ -149,11 +150,12 @@ public class AlwaysTurnLeft {
         currentFacing = changeFacing(currentFacing, move);
       }
     }
-    // 4. (exit) if 'w', canMove cur Facing
+    // (exit) if 'w', canMove cur Facing
     possibleMoves = possibleMoves | currentFacing;
+    int x = currentRoom.x;
+    int y = currentRoom.y;
     maze.put(currentRoom, possibleMoves);
-    System.out.println(String.format("%s: %s", currentRoom, mapKey(possibleMoves)));
-    // 5. update the current room depending on the facing
+    // update the current room depending on the facing
     currentRoom = nextRoom(currentFacing);
   }
 
@@ -194,6 +196,26 @@ public class AlwaysTurnLeft {
     }
   }
 
+  private void printSolution() {
+    HashSet<Integer> xValues = new HashSet<Integer>();
+    HashSet<Integer> yValues = new HashSet<Integer>();
+    for (Tuple key: maze.keySet()) {
+      xValues.add(key.x);
+      yValues.add(key.y);
+    }
+    Integer[] xVals = xValues.toArray(new Integer[xValues.size()]);
+    Integer[] yVals = yValues.toArray(new Integer[yValues.size()]);
+    Arrays.sort(xVals, Collections.reverseOrder());
+    Arrays.sort(yVals);
+    for (Integer y: xVals) {
+      for (Integer x: yVals) {
+        int room = maze.get(new Tuple(x.intValue(), y.intValue()));
+        System.out.print(mapKey(room));
+      }
+      System.out.print("\n");
+    }
+  }
+
   /**
    * Walk the maze by separating the given directions into a forward
    * and backwards set of moves, then tokenizing each set of moves into
@@ -222,8 +244,11 @@ public class AlwaysTurnLeft {
       // Turn around
       currentFacing = oppositeFacing();
     }
-    System.out.println(startingRoom);
-    System.out.println(endingRoom);
+    // Remove the starting point and ending point since they're
+    // technically outside the maze
+    maze.remove(startingRoom);
+    maze.remove(endingRoom);
+    printSolution();
  }
 
   public static void main(String[] args) throws Exception {
