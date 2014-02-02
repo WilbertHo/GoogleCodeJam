@@ -262,10 +262,11 @@ public class AlwaysTurnLeft {
 
       // One maze per line
       String line = br.readLine();
-      while (line != null) {
+      for (int caseNum = 1; line != null; ++caseNum) {
         // Instantiate class so we can call non-static methods
         AlwaysTurnLeft atl = new AlwaysTurnLeft();
 
+        System.out.println(String.format("Case #%d:", caseNum));
         atl.walkMaze(line);
 
         // Read in the next line/maze
