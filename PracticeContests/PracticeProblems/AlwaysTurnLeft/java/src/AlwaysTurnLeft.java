@@ -205,10 +205,10 @@ public class AlwaysTurnLeft {
     }
     Integer[] xVals = xValues.toArray(new Integer[xValues.size()]);
     Integer[] yVals = yValues.toArray(new Integer[yValues.size()]);
-    Arrays.sort(xVals, Collections.reverseOrder());
-    Arrays.sort(yVals);
-    for (Integer y: xVals) {
-      for (Integer x: yVals) {
+    Arrays.sort(yVals, Collections.reverseOrder());
+    Arrays.sort(xVals);
+    for (Integer y: yVals) {
+      for (Integer x: xVals) {
         int room = maze.get(new Tuple(x.intValue(), y.intValue()));
         System.out.print(mapKey(room));
       }
