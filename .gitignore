@@ -2,3 +2,9 @@
 .DS_Store
 *.swp
 *.pyc
+output
+output.*
+.pdbrc
+.idea
+*.iml
+out/
