@@ -8,3 +8,8 @@ output.*
 .idea
 *.iml
 out/
+*.class
+.metadata/
+bin/
+.classpath
+.project
