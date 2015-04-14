@@ -7,8 +7,9 @@ def calculate_minimum_friends(max_shyness, audience):
 
     for shyness, num_sitting in enumerate(audience[1:], start=1):
         if num_sitting and currently_standing < shyness:
-            friends_needed += shyness - currently_standing
-            currently_standing += friends_needed
+            deficit = shyness - currently_standing
+            friends_needed += deficit
+            currently_standing += deficit
         currently_standing += num_sitting
 
     return friends_needed
