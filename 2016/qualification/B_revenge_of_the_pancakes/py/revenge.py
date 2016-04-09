@@ -18,7 +18,8 @@ def main():
     lines = [line.strip() for line in fileinput.input()][1:]
 
     for case, stack in enumerate(lines, 1):
-        print "Case #{case}: {flips}".format(case=case, flips=pancakes_happy(stack))
+        print "Case #{case}: {flips}".format(case=case, flips=min(pancakes_happy(stack),
+                                                                  pancakes_happy(stack[::-1]) + 1))
 
 
 if __name__ == '__main__':
